@@ -14,7 +14,7 @@ class OfflineCreditcardExtension < Spree::Extension
   
   def activate    
     # credit card numbers should always be stored in the case of offline processing (no other option makes sense)
-    #Spree::Config.set(:store_cc => true) 
+    # Spree::Config.set(:store_cc => true) 
     
     Creditcard.class_eval do 
       require 'openssl'
@@ -23,7 +23,7 @@ class OfflineCreditcardExtension < Spree::Extension
       # overrides filter_sensitive to make sure the stored values are encrypted.
       private
       def filter_sensitive                 
-        # don't encrypt again, this way we can clone an order and its creditcard and keep text encrypted
+        # don't encrypt again, this way we can clone and order and its creditcard and keep text encrypted
         return unless encrypted_text.blank?
         gnupg = GnuPG.new :recipient => Spree::Pgp::Config[:email]
         public_key_text = Rails.cache.fetch('public_key') do
@@ -32,24 +32,24 @@ class OfflineCreditcardExtension < Spree::Extension
         gnupg.load_public_key public_key_text        
         text = "Number: #{number}    Code: #{verification_value}"
         self[:encrypted_text] = gnupg.encrypt(text)
+        self[:display_number] = ActiveMerchant::Billing::CreditCard.mask(number) if self.display_number.blank?
         self[:number] = ""
         self[:verification_value] = ""
       end
     end
-    
+
     # register Creditcards tab
     Admin::BaseController.class_eval do
       before_filter :add_creditcard_tab
-
       private
+
       def add_creditcard_tab
         @order_admin_tabs ||= []
-        @order_admin_tabs << {:name => t('credit_cards'), :url => "admin_order_creditcards_url"}  
+        @order_admin_tabs << {:name => t('credit_card_payment'), :url => "admin_order_creditcard_payments_url"}
       end
-    end    
-    
+    end
   end
-  
+
   def deactivate
   end
   
