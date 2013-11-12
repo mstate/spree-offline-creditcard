@@ -13,15 +13,22 @@
         <dt><%= Spree.t(:expiration) %>:</dt>
         <dd><%= payment.source.month %>/<%= payment.source.year %></dd>
 
-        <% if payment.source.encrypted_text && !payment.source.encrypted_text.blank? -%>
-          <dt><%= Spree.t(:billing_address) %>:</dt>
-          <dd><%= render :partial => 'spree/admin/shared/address', :locals => {:address => payment.order.billing_address} %></dd>
+        <dt><%= Spree.t(:billing_address) %>:</dt>
+        <dd><%= render :partial => 'spree/admin/shared/address', :locals => {:address => payment.order.billing_address} %></dd>
 
-          <dt><%= Spree.t(:credit_card_info) %>:</dt>
-          <dd><%= payment.source.encrypted_text.to_s %></dd>
-        <% end -%>
       </dl>
     </div>
   </div>
-
 </fieldset>
+    <% if payment.source.encrypted_text && !payment.source.encrypted_text.blank? -%>
+    <fieldset data-hook="credit_card_encrypted_data">
+      <legend align="center"><%= Spree.t(:encrypted_information) %></legend>
+      <div class="row">
+        <div class="alpha nine columns">
+          <div id='encrypted_data_for_cc' style="height:30px;width:400px;overflow:scroll;">
+            <pre><%= CGI.escapeHTML(payment.source.encrypted_text) %></pre>
+          </div>
+        </div>
+      </div>
+    </fieldset>
+    <% end -%>
