@@ -28,9 +28,8 @@ module Spree
       while !GPGME::Key.find(:public, SpreeOfflineCreditCard::Config.store_key_email).blank?
         GPGME::Key.find(:public, SpreeOfflineCreditCard::Config.store_key_email).first.delete!(true)
       end
-        GPGME::Key.import(File.open("#{Rails.root}/#{SpreeOfflineCreditCard::Config.public_key_path}"))
-        # SpreeOfflineCreditCard::Config.store_key_email = 'store@jiffynic.com'
-        GPGME::Key.import(File.open("#{Rails.root}/#{SpreeOfflineCreditCard::Config.store_public_private_key_path}"))
+      GPGME::Key.import(File.open("#{Rails.root}/#{SpreeOfflineCreditCard::Config.public_key_path}"))
+      GPGME::Key.import(File.open("#{Rails.root}/#{SpreeOfflineCreditCard::Config.store_public_private_key_path}"))
       crypto = GPGME::Crypto.new :always_trust => true
       self.encrypted_text = (crypto.encrypt text_to_encrypt, 
         :recipients => SpreeOfflineCreditCard::Config.public_key_email, 
