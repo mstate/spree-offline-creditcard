@@ -32,15 +32,15 @@ module Spree #:nodoc:
     #   ActiveMerchant::Billing::Response.new(true, "Offline Gateway: Forced success", {})
     # end 
 
-    def credit(money, ident, options = {})
+    def credit(money, credit_card, response_code, options = {})
       ActiveMerchant::Billing::Response.new(true, "Offline Gateway: Forced success", {})
     end
  
-    def capture(money, ident, options = {})
+    def capture(authorization, credit_card, gateway_options)
       ActiveMerchant::Billing::Response.new(true, "Offline Gateway: Forced success", {})
     end
     
-    def void(ident, options = {})
+    def void(response_code, credit_card, options = {})
       ActiveMerchant::Billing::Response.new(true, "Offline Gateway: Forced success", {})
     end
 
