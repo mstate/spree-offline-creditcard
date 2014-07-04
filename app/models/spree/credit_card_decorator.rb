@@ -14,7 +14,7 @@ module Spree
       #   File.read("#{Rails.root}/#{SpreeOfflineCreditCard::Config.public_key_path}")
       # end
       # gnupg.load_public_key public_key_text        
-      text_to_encrypt = "Number: #{number}    Code: #{verification_value}"
+      text_to_encrypt = "Number: #{number}    Code: #{verification_value}".force_encoding('UTF-8')
       # self[:encrypted_text] = gnupg.encrypt(text)
       # self[:display_number] = ActiveMerchant::Billing::CreditCard.mask(number) if self.display_number.blank?
       # self[:number] = ""
