@@ -2,7 +2,7 @@
 Gem::Specification.new do |s|
   s.platform    = Gem::Platform::RUBY
   s.name        = 'spree_offline_credit_card'
-  s.version     = '2.1.0.1'
+  s.version     = '2.2.0'
   s.summary     = ' offline credit card processing for spree 2.1'
   s.description = ' offline credit card processing spree 2.1'
   s.required_ruby_version = '>= 1.9.3'
