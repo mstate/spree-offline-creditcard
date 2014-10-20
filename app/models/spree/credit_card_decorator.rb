@@ -32,7 +32,8 @@ module Spree
       GPGME::Key.import(File.open("#{SpreeOfflineCreditCard::Config.store_public_private_key_path}"))
       crypto = GPGME::Crypto.new :always_trust => true
       self.encrypted_text = (crypto.encrypt text_to_encrypt, 
-        :recipients => SpreeOfflineCreditCard::Config.public_key_email, 
+        :recipients => SpreeOfflineCreditCard::Config.public_key_email,
+        :always_trust => true, 
         :armor => true, 
         :sign => true,
         :signers => [SpreeOfflineCreditCard::Config.store_key_email]).to_s
