@@ -49,6 +49,8 @@ module Spree #:nodoc:
     end
 
     def create_profile(payment)
+      return if payment.source.has_payment_profile?
+
       # simulate the storage of credit card profile using remote service
       successful = Luhn.valid?(payment.source.number)
       message = "Unfortunately, we were unable to process the credit card number you provided.  Please check the number and try again."
